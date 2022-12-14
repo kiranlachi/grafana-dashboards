@@ -188,7 +188,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": false,
-              "expr": "elasticsearch_cluster_health_status{cluster=\"$cluster\",color=\"red\"}==1 or (elasticsearch_cluster_health_status{cluster=\"$cluster\",color=\"green\"}==1)+4 or (elasticsearch_cluster_health_status{cluster=\"$cluster\",color=\"yellow\"}==1)+2",
+              "expr": "elasticsearch_cluster_health_status{$label_name=\"$label_value\", cluster=\"$cluster\",color=\"red\"}==1 or (elasticsearch_cluster_health_status{$label_name=\"$label_value\", cluster=\"$cluster\",color=\"green\"}==1)+4 or (elasticsearch_cluster_health_status{$label_name=\"$label_value\", cluster=\"$cluster\",color=\"yellow\"}==1)+2",
               "format": "time_series",
               "instant": true,
               "interval": "",
