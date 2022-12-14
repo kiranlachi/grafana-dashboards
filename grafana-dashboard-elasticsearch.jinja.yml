@@ -282,7 +282,7 @@ data:
           "pluginVersion": "8.4.1",
           "targets": [
             {
-              "expr": "count(elasticsearch_breakers_tripped{cluster=\"$cluster\",name=~\"$name\"}>0)",
+              "expr": "count(elasticsearch_breakers_tripped{$label_name=\"$label_value\", cluster=\"$cluster\",name=~\"$name\"}>0)",
               "format": "time_series",
               "instant": true,
               "intervalFactor": 2,
