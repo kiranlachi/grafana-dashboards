@@ -98,7 +98,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(container_memory_working_set_bytes{image!=\"\", container!=\"POD\", pod=~\"$pod\"})",
+                  "expr": "sum(container_memory_working_set_bytes{$label_name=\"$label_value\", image!=\"\", container!=\"POD\", pod=~\"$pod\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -154,7 +154,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{pod=~\"$pod\", container!=\"POD\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{pod=~\"$pod\", workload=\"deployment-server-nginx\"}\n)",
+                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{$label_name=\"$label_value\", pod=~\"$pod\", container!=\"POD\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{pod=~\"$pod\", workload=\"deployment-server-nginx\"}\n)",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -209,7 +209,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "count(mixin_pod_workload{workload=\"deployment-server-nginx\"}) ",
+                  "expr": "count(mixin_pod_workload{$label_name=\"$label_value\", workload=\"deployment-server-nginx\"}) ",
                   "interval": "",
                   "legendFormat": "Pods",
                   "refId": "A"
@@ -302,7 +302,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "kube_pod_container_status_restarts_total{pod=~\"$pod\", container=\"server-nginx\"} > 1",
+                  "expr": "kube_pod_container_status_restarts_total{$label_name=\"$label_value\", pod=~\"$pod\", container=\"server-nginx\"} > 1",
                   "interval": "",
                   "legendFormat": "{{pod}}",
                   "refId": "A"
@@ -406,7 +406,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by(container) (container_memory_working_set_bytes{image!=\"\", container!=\"POD\", pod=~\"$pod\"})",
+                  "expr": "sum by(container) (container_memory_working_set_bytes{$label_name=\"$label_value\", image!=\"\", container!=\"POD\", pod=~\"$pod\"})",
                   "interval": "",
                   "legendFormat": "{{container}}",
                   "refId": "A"
@@ -513,7 +513,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{pod=~\"$pod\", container!=\"POD\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{pod=~\"$pod\", workload=\"deployment-server-nginx\"}\n) by (container)\n",
+                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{$label_name=\"$label_value\", pod=~\"$pod\", container!=\"POD\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{$label_name=\"$label_value\", pod=~\"$pod\", workload=\"deployment-server-nginx\"}\n) by (container)\n",
                   "interval": "",
                   "legendFormat": "{{container}}",
                   "refId": "A"
@@ -623,7 +623,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "container_processes{pod=~\"$pod\", container=\"server-nginx\"}",
+                  "expr": "container_processes{$label_name=\"$label_value\", pod=~\"$pod\", container=\"server-nginx\"}",
                   "interval": "",
                   "legendFormat": "{{pod}}",
                   "refId": "A"
@@ -717,7 +717,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "container_threads{pod=~\"$pod\", container=\"server-nginx\"}",
+                  "expr": "container_threads{$label_name=\"$label_value\", pod=~\"$pod\", container=\"server-nginx\"}",
                   "interval": "",
                   "legendFormat": "{{pod}}",
                   "refId": "A"
@@ -811,7 +811,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "container_sockets{pod=~\"$pod\", container=\"server-nginx\"}",
+                  "expr": "container_sockets{$label_name=\"$label_value\", pod=~\"$pod\", container=\"server-nginx\"}",
                   "interval": "",
                   "legendFormat": "{{pod}}",
                   "refId": "A"
@@ -921,7 +921,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(nginx_vts_main_connections{status=\"active\"}) by (pod)",
+                  "expr": "sum(nginx_vts_main_connections{$label_name=\"$label_value\", status=\"active\"}) by (pod)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -1019,7 +1019,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_server_requests_total{host=~\"$Host\", code!=\"total\"}[$__rate_interval])) by (pod)",
+                  "expr": "sum(irate(nginx_vts_server_requests_total{$label_name=\"$label_value\", host=~\"$Host\", code!=\"total\"}[$__rate_interval])) by (pod)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -1119,7 +1119,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_server_requests_total{host=~\"$Host\", code=\"4xx\"}[$__rate_interval])) by (pod)",
+                  "expr": "sum(irate(nginx_vts_server_requests_total{$label_name=\"$label_value\", host=~\"$Host\", code=\"4xx\"}[$__rate_interval])) by (pod)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -1219,7 +1219,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_server_requests_total{host=~\"$Host\", code=\"5xx\"}[$__rate_interval])) by (pod)",
+                  "expr": "sum(irate(nginx_vts_server_requests_total{$label_name=\"$label_value\", host=~\"$Host\", code=\"5xx\"}[$__rate_interval])) by (pod)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -1334,7 +1334,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(nginx_vts_main_connections{pod=~\"$pod\", status=~\"active|writing|reading|waiting\"}) by (status)",
+                  "expr": "sum(nginx_vts_main_connections{$label_name=\"$label_value\", pod=~\"$pod\", status=~\"active|writing|reading|waiting\"}) by (status)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -1445,7 +1445,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(irate(nginx_vts_main_connections{status=\"active\"}[1m]))",
+                  "expr": "sum(irate(nginx_vts_main_connections{$label_name=\"$label_value\", status=\"active\"}[1m]))",
                   "format": "time_series",
                   "intervalFactor": 1,
                   "legendFormat": "",
@@ -1514,7 +1514,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(irate(nginx_vts_main_connections{status=\"writing\"}[1m]))",
+                  "expr": "sum(irate(nginx_vts_main_connections{$label_name=\"$label_value\", status=\"writing\"}[1m]))",
                   "format": "time_series",
                   "intervalFactor": 1,
                   "legendFormat": "",
@@ -1583,7 +1583,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(irate(nginx_vts_main_connections{status=\"reading\"}[1m]))",
+                  "expr": "sum(irate(nginx_vts_main_connections{$label_name=\"$label_value\", status=\"reading\"}[1m]))",
                   "format": "time_series",
                   "intervalFactor": 1,
                   "legendFormat": "",
@@ -1652,7 +1652,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(irate(nginx_vts_main_connections{status=\"waiting\"}[1m]))",
+                  "expr": "sum(irate(nginx_vts_main_connections{$label_name=\"$label_value\", status=\"waiting\"}[1m]))",
                   "format": "time_series",
                   "intervalFactor": 1,
                   "legendFormat": "",
@@ -1708,7 +1708,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_server_requests_total{pod=~\"$pod\", host=~\"$Host\", code!=\"total\"}[$__interval])) by (code)",
+                  "expr": "sum(irate(nginx_vts_server_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", host=~\"$Host\", code!=\"total\"}[$__interval])) by (code)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -1809,7 +1809,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_upstream_requests_total{pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (code)",
+                  "expr": "sum(irate(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (code)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -1927,7 +1927,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(nginx_vts_server_requests_total{pod=~\"$pod\", host=~\"$Host\", code=~\"4xx|5xx\"}[$__interval])) / sum(rate(nginx_vts_server_requests_total{pod=~\"$pod\", host=~\"$Host\", code!=\"total\"}[$__interval])) * 100",
+                  "expr": "sum(rate(nginx_vts_server_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", host=~\"$Host\", code=~\"4xx|5xx\"}[$__interval])) / sum(rate(nginx_vts_server_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", host=~\"$Host\", code!=\"total\"}[$__interval])) * 100",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -2027,7 +2027,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_upstream_requests_total{pod=~\"$pod\", backend=~\"^$Backend$\", code=\"5xx\"}[$__interval])) by (backend) / sum(irate(nginx_vts_upstream_requests_total{pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (backend) * 100",
+                  "expr": "sum(irate(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", backend=~\"^$Backend$\", code=\"5xx\"}[$__interval])) by (backend) / sum(irate(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (backend) * 100",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{backend}}",
@@ -2124,7 +2124,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_upstream_requests_total{pod=~\"$pod\", backend=~\"^$Backend$\", code=\"4xx\"}[$__interval])) by (backend) / sum(irate(nginx_vts_upstream_requests_total{pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (backend) * 100",
+                  "expr": "sum(irate(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", backend=~\"^$Backend$\", code=\"4xx\"}[$__interval])) by (backend) / sum(irate(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (backend) * 100",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{backend}}",
@@ -2222,7 +2222,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_upstream_requests_total{pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (backend)",
+                  "expr": "sum(irate(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", backend=~\"^$Backend$\", code!=\"total\"}[$__interval])) by (backend)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -2322,7 +2322,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "max(nginx_vts_upstream_response_seconds{pod=~\"$pod\", upstream=~\"^$Upstream$\", backend=~\"^$Backend$\"}) by (backend)",
+                  "expr": "max(nginx_vts_upstream_response_seconds{$label_name=\"$label_value\", pod=~\"$pod\", upstream=~\"^$Upstream$\", backend=~\"^$Backend$\"}) by (backend)",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{backend}}",
@@ -2419,7 +2419,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_server_bytes_total{pod=~\"$pod\", host=~\"$Host\"}[$__interval])) by (direction)",
+                  "expr": "sum(irate(nginx_vts_server_bytes_total{$label_name=\"$label_value\", pod=~\"$pod\", host=~\"$Host\"}[$__interval])) by (direction)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -2525,7 +2525,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(irate(nginx_vts_upstream_bytes_total{pod=~\"$pod\", backend=~\"^$Backend$\"}[$__rate_interval])) by (direction, backend)",
+                  "expr": "sum(irate(nginx_vts_upstream_bytes_total{$label_name=\"$label_value\", pod=~\"$pod\", backend=~\"^$Backend$\"}[$__rate_interval])) by (direction, backend)",
                   "format": "time_series",
                   "interval": "",
                   "intervalFactor": 2,
@@ -2591,6 +2591,61 @@ data:
       "templating": {
         "list": [
           {
+            "current": {
+              "selected": true,
+              "text": "tenant_id",
+              "value": "tenant_id"
+            },
+            "hide": 0,
+            "includeAll": false,
+            "multi": false,
+            "name": "label_name",
+            "options": [
+              {
+                "selected": false,
+                "text": "telescope_label",
+                "value": "telescope_label"
+              },
+              {
+                "selected": false,
+                "text": "tenant_id",
+                "value": "tenant_id"
+              },
+              {
+                "selected": false,
+                "text": "loadtest_run_id",
+                "value": "loadtest_run_id"
+              }
+            ],
+            "query": "telescope_label, tenant_id, loadtest_run_id",
+            "queryValue": "",
+            "skipUrlSync": false,
+            "type": "custom"
+          },
+          {
+            "current": {
+              "isNone": true,
+              "selected": false,
+              "text": "None",
+              "value": ""
+            },
+            "definition": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+            "hide": 0,
+            "includeAll": false,
+            "multi": true,
+            "name": "label_value",
+            "options": [],
+            "query": {
+              "query": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 2,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
             "allValue": null,
             "current": {
               "selected": false,
@@ -2598,7 +2653,7 @@ data:
               "value": "$__all"
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(nginx_vts_server_bytes_total, pod)",
+            "definition": "label_values(nginx_vts_server_bytes_total{$label_name=\"$label_value\"}, pod)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -2608,7 +2663,7 @@ data:
             "name": "pod",
             "options": [],
             "query": {
-              "query": "label_values(nginx_vts_server_bytes_total, pod)",
+              "query": "label_values(nginx_vts_server_bytes_total{$label_name=\"$label_value\"}, pod)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -2628,7 +2683,7 @@ data:
               "value": "$__all"
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(nginx_vts_server_requests_total{pod=~\"$pod\"}, host)",
+            "definition": "label_values(nginx_vts_server_requests_total{$label_name=\"$label_value\", pod=~\"$pod\"}, host)",
             "description": null,
             "error": null,
             "hide": 2,
@@ -2638,7 +2693,7 @@ data:
             "name": "Host",
             "options": [],
             "query": {
-              "query": "label_values(nginx_vts_server_requests_total{pod=~\"$pod\"}, host)",
+              "query": "label_values(nginx_vts_server_requests_total{$label_name=\"$label_value\", pod=~\"$pod\"}, host)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -2658,7 +2713,7 @@ data:
               "value": "$__all"
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(nginx_vts_upstream_requests_total{pod=~\"$pod\"}, upstream)",
+            "definition": "label_values(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\"}, upstream)",
             "description": null,
             "error": null,
             "hide": 2,
@@ -2668,7 +2723,7 @@ data:
             "name": "Upstream",
             "options": [],
             "query": {
-              "query": "label_values(nginx_vts_upstream_requests_total{pod=~\"$pod\"}, upstream)",
+              "query": "label_values(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\"}, upstream)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -2692,7 +2747,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(nginx_vts_upstream_requests_total{pod=~\"$pod\", upstream=~\"$Upstream\"}, backend)",
+            "definition": "label_values(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", upstream=~\"$Upstream\"}, backend)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -2702,7 +2757,7 @@ data:
             "name": "Backend",
             "options": [],
             "query": {
-              "query": "label_values(nginx_vts_upstream_requests_total{pod=~\"$pod\", upstream=~\"$Upstream\"}, backend)",
+              "query": "label_values(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", upstream=~\"$Upstream\"}, backend)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -2722,7 +2777,7 @@ data:
               "value": "10.23.245.51"
             },
             "datasource": null,
-            "definition": "label_values(nginx_vts_upstream_requests_total{upstream=~\"$Upstream\"}, backend)",
+            "definition": "label_values(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", upstream=~\"$Upstream\"}, backend)",
             "description": "/((\\d{1,3}.){3}\\d{1,3})/",
             "error": null,
             "hide": 2,
@@ -2732,7 +2787,7 @@ data:
             "name": "service_ip",
             "options": [],
             "query": {
-              "query": "label_values(nginx_vts_upstream_requests_total{upstream=~\"$Upstream\"}, backend)",
+              "query": "label_values(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", upstream=~\"$Upstream\"}, backend)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -2749,7 +2804,7 @@ data:
               "value": "service-webapp"
             },
             "datasource": null,
-            "definition": "label_values(kube_service_info{cluster_ip=~\"$service_ip\"}, service)",
+            "definition": "label_values(kube_service_info{$label_name=\"$label_value\", cluster_ip=~\"$service_ip\"}, service)",
             "description": null,
             "error": null,
             "hide": 2,
@@ -2759,7 +2814,7 @@ data:
             "name": "service",
             "options": [],
             "query": {
-              "query": "label_values(kube_service_info{cluster_ip=~\"$service_ip\"}, service)",
+              "query": "label_values(kube_service_info{$label_name=\"$label_value\", cluster_ip=~\"$service_ip\"}, service)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,

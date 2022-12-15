@@ -92,7 +92,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "avg(instabase_file_tservice_config_copy_timeout_seconds)",
+                  "expr": "avg(instabase_file_tservice_config_copy_timeout_seconds{$label_name=\"$label_value\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -146,7 +146,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "avg(instabase_file_tservice_config_copy_parallel_thread_count)",
+                  "expr": "avg(instabase_file_tservice_config_copy_parallel_thread_count{$label_name=\"$label_value\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -200,7 +200,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "avg(instabase_file_tservice_config_default_page_size_count)",
+                  "expr": "avg(instabase_file_tservice_config_default_page_size_count{$label_name=\"$label_value\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -254,7 +254,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "avg(instabase_file_tservice_config_doc_indexer_max_queue_size)",
+                  "expr": "avg(instabase_file_tservice_config_doc_indexer_max_queue_size{$label_name=\"$label_value\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -308,7 +308,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "avg(instabase_file_tservice_config_doc_indexer_max_thread_count)",
+                  "expr": "avg(instabase_file_tservice_config_doc_indexer_max_thread_count{$label_name=\"$label_value\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -362,7 +362,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "avg(instabase_file_tservice_config_max_encryption_file_size_megabytes)",
+                  "expr": "avg(instabase_file_tservice_config_max_encryption_file_size_megabytes{$label_name=\"$label_value\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -416,7 +416,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "avg(instabase_file_tservice_config_max_page_size_count)",
+                  "expr": "avg(instabase_file_tservice_config_max_page_size_count{$label_name=\"$label_value\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -488,7 +488,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(container_memory_working_set_bytes{image!=\"\", container!=\"POD\", pod=~\"$pod\"})",
+                  "expr": "sum(container_memory_working_set_bytes{$label_name=\"$label_value\", image!=\"\", container!=\"POD\", pod=~\"$pod\"})",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -544,7 +544,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{pod=~\"$pod\", container!=\"POD\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{pod=~\"$pod\", workload=\"deployment-file-tservice\"}\n)",
+                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{$label_name=\"$label_value\", pod=~\"$pod\", container!=\"POD\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{$label_name=\"$label_value\", pod=~\"$pod\", workload=\"deployment-file-tservice\"}\n)",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -597,7 +597,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "count(mixin_pod_workload{workload=\"deployment-file-tservice\"}) ",
+                  "expr": "count(mixin_pod_workload{$label_name=\"$label_value\", workload=\"deployment-file-tservice\"}) ",
                   "interval": "",
                   "legendFormat": "Pods",
                   "refId": "A"
@@ -688,7 +688,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "kube_pod_container_status_restarts_total{pod=~\"$pod\", container=~\"$container\"} > 1",
+                  "expr": "kube_pod_container_status_restarts_total{$label_name=\"$label_value\", pod=~\"$pod\", container=~\"$container\"} > 1",
                   "interval": "",
                   "legendFormat": "{{pod}}",
                   "refId": "A"
@@ -791,7 +791,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by(container) (container_memory_working_set_bytes{image!=\"\", container=~\"$container\", pod=~\"$pod\"})",
+                  "expr": "sum by(container) (container_memory_working_set_bytes{$label_name=\"$label_value\", image!=\"\", container=~\"$container\", pod=~\"$pod\"})",
                   "interval": "",
                   "legendFormat": "{{container}}",
                   "refId": "A"
@@ -897,7 +897,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{pod=~\"$pod\", container=~\"$container\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{pod=~\"$pod\", workload=\"deployment-file-tservice\"}\n) by (container)\n",
+                  "expr": "sum(\n  label_replace(\n    namespace_pod_name_container_name:container_cpu_usage_seconds_total:sum_rate{$label_name=\"$label_value\", pod=~\"$pod\", container=~\"$container\"},\n    \"pod\", \"$1\", \"pod\", \"(.*)\"\n  ) * on(namespace,pod) group_left(workload, workload_type) mixin_pod_workload{$label_name=\"$label_value\", pod=~\"$pod\", workload=\"deployment-file-tservice\"}\n) by (container)\n",
                   "interval": "",
                   "legendFormat": "{{container}}",
                   "refId": "A"
@@ -1005,7 +1005,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "irate(container_network_receive_bytes_total{pod=~\"$pod\"}[$__interval])",
+                  "expr": "irate(container_network_receive_bytes_total{$label_name=\"$label_value\", pod=~\"$pod\"}[$__interval])",
                   "interval": "",
                   "legendFormat": "{{pod}}",
                   "refId": "A"
@@ -1097,7 +1097,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "irate(container_network_transmit_bytes_total{pod=~\"$pod\"}[$__interval])",
+                  "expr": "irate(container_network_transmit_bytes_total{$label_name=\"$label_value\", pod=~\"$pod\"}[$__interval])",
                   "interval": "",
                   "legendFormat": "{{pod}}",
                   "refId": "A"
@@ -1193,7 +1193,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "container_threads{pod=~\"$pod\", container=~\"$container\"}",
+                  "expr": "container_threads{$label_name=\"$label_value\", pod=~\"$pod\", container=~\"$container\"}",
                   "interval": "",
                   "legendFormat": "{{pod}} - {{container}}",
                   "refId": "A"
@@ -1287,7 +1287,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "container_sockets{pod=~\"$pod\", container=~\"$container\"}",
+                  "expr": "container_sockets{$label_name=\"$label_value\", pod=~\"$pod\", container=~\"$container\"}",
                   "interval": "",
                   "legendFormat": "{{pod}} - {{container}}",
                   "refId": "A"
@@ -1393,7 +1393,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(increase(instabase_file_tservice_requests_total{pod=~\"$pod\", operation_name=~\"$operation\", client_type=~\"$client\"}[$__interval]))",
+                  "expr": "sum(increase(instabase_file_tservice_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", operation_name=~\"$operation\", client_type=~\"$client\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -1453,7 +1453,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(increase(instabase_file_tservice_requests_total{pod=~\"$pod\", operation_name=~\"$operation\", client_type=~\"$client\", status_code=~\"FAILURE|failure\"}[$__interval]))",
+                  "expr": "sum(increase(instabase_file_tservice_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", operation_name=~\"$operation\", client_type=~\"$client\", status_code=~\"FAILURE|failure\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -1510,7 +1510,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(increase(instabase_file_tservice_requests_total{pod=~\"$pod\", operation_name=~\"$operation\", client_type=~\"$client\", status_code!~\"OK|FAILURE|success|failure\"}[$__interval]))",
+                  "expr": "sum(increase(instabase_file_tservice_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", operation_name=~\"$operation\", client_type=~\"$client\", status_code!~\"OK|FAILURE|success|failure\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -1569,7 +1569,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(increase(instabase_file_tservice_requests_total{operation_name=~\"$operation\", pod=~\"$pod\"}[$__interval])) by (client_type)",
+                  "expr": "sum(increase(instabase_file_tservice_requests_total{$label_name=\"$label_value\", operation_name=~\"$operation\", pod=~\"$pod\"}[$__interval])) by (client_type)",
                   "instant": false,
                   "interval": "",
                   "legendFormat": " {{client_type}}",
@@ -1667,7 +1667,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_file_tservice_requests_total{operation_name=~\"$operation\", pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (operation_name)",
+                  "expr": "sum(rate(instabase_file_tservice_requests_total{$label_name=\"$label_value\", operation_name=~\"$operation\", pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (operation_name)",
                   "instant": false,
                   "interval": "",
                   "legendFormat": " {{operation_name}}",
@@ -1764,7 +1764,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_requests_duration_milliseconds_bucket{operation_name=~\"$operation\", pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (le, operation_name))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_requests_duration_milliseconds_bucket{$label_name=\"$label_value\", operation_name=~\"$operation\", pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (le, operation_name))",
                   "interval": "",
                   "legendFormat": "{{operation_name}}",
                   "refId": "A"
@@ -1861,7 +1861,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_file_tservice_requests_duration_milliseconds_sum{operation_name=~\"$operation\",pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (operation_name) / sum(rate(instabase_file_tservice_requests_duration_milliseconds_count{operation_name=~\"$operation\",pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (operation_name)",
+                  "expr": "sum(rate(instabase_file_tservice_requests_duration_milliseconds_sum{$label_name=\"$label_value\", operation_name=~\"$operation\",pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (operation_name) / sum(rate(instabase_file_tservice_requests_duration_milliseconds_count{$label_name=\"$label_value\", operation_name=~\"$operation\",pod=~\"$pod\", client_type=~\"$client\", status_code=~\"$status\"}[$__interval])) by (operation_name)",
                   "interval": "",
                   "legendFormat": "{{operation_name}}",
                   "refId": "A"
@@ -1965,14 +1965,14 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{pod=~\"$pod\", client_type=~\"$client\",operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) ",
+                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\",operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) ",
                   "interval": "",
                   "legendFormat": "Chunk Processing Rate",
                   "refId": "B"
                 },
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{pod=~\"$pod\", client_type=~\"$client\", operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\", operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "File Chunk Size (99th Percentile)",
                   "refId": "A"
@@ -2075,14 +2075,14 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{pod=~\"$pod\", client_type=~\"$client\",operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) ",
+                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\",operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) ",
                   "interval": "",
                   "legendFormat": "Chunk Processing Rate ",
                   "refId": "B"
                 },
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{pod=~\"$pod\", client_type=~\"$client\", operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\", operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "File Chunk Size (99th Percentile)",
                   "refId": "A"
@@ -2186,14 +2186,14 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{pod=~\"$pod\", client_type=~\"$client\",operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) ",
+                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\",operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) ",
                   "interval": "",
                   "legendFormat": "Chunk Processing Rate",
                   "refId": "B"
                 },
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{pod=~\"$pod\", client_type=~\"$client\", operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\", operation_name=\"read_file\", status_code=~\"$status\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "File Chunk Size (99th Percentile)",
                   "refId": "A"
@@ -2296,14 +2296,14 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{pod=~\"$pod\", client_type=~\"$client\",operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) ",
+                  "expr": "sum(rate(instabase_file_tservice_processed_data_bytes_sum{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\",operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) ",
                   "interval": "",
                   "legendFormat": "Chunk Processing Rate ",
                   "refId": "B"
                 },
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{pod=~\"$pod\", client_type=~\"$client\", operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_processed_data_bytes_bucket{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\", operation_name=\"write_file\", status_code=~\"$status\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "File Chunk Size (99th Percentile)",
                   "refId": "A"
@@ -2400,7 +2400,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(increase(instabase_file_tservice_requests_total{pod=~\"$pod\", client_type=~\"$client\", operation_name=~\"$operation\", status_code!~\"OK|success\"}[$__interval])) by (operation_name)",
+                  "expr": "sum(increase(instabase_file_tservice_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\", operation_name=~\"$operation\", status_code!~\"OK|success\"}[$__interval])) by (operation_name)",
                   "interval": "",
                   "legendFormat": "{{operation_name}}",
                   "refId": "A"
@@ -2506,7 +2506,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(increase(instabase_grpc_server_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval]))",
+                  "expr": "sum(increase(instabase_grpc_server_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -2566,7 +2566,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "sum by (method_name) (rate(instabase_grpc_server_sent_data_bytes_sum{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval]))",
+                  "expr": "sum by (method_name) (rate(instabase_grpc_server_sent_data_bytes_sum{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "{{method_name}}",
                   "refId": "A"
@@ -2662,7 +2662,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(rate(instabase_grpc_server_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\", status!~\"OK\"}[$__interval])) / sum(rate(instabase_grpc_server_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval])) * 100",
+                  "expr": "sum(rate(instabase_grpc_server_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\", status!~\"OK\"}[$__interval])) / sum(rate(instabase_grpc_server_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval])) * 100",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -2722,7 +2722,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "sum by (method_name) (rate(instabase_grpc_server_received_data_bytes_sum{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval]))",
+                  "expr": "sum by (method_name) (rate(instabase_grpc_server_received_data_bytes_sum{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "{{method_name}}",
                   "refId": "A"
@@ -2815,7 +2815,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "sum(rate(instabase_grpc_server_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval])) by (method_name)",
+                  "expr": "sum(rate(instabase_grpc_server_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval])) by (method_name)",
                   "interval": "",
                   "legendFormat": "{{method_name}}",
                   "refId": "A"
@@ -2908,7 +2908,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_grpc_server_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval])) by (le, method_name))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_grpc_server_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\"}[$__interval])) by (le, method_name))",
                   "interval": "",
                   "legendFormat": "{{method_name}}",
                   "refId": "A"
@@ -3002,7 +3002,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (status, method_name) (increase(instabase_grpc_server_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\", status!~\"OK\"}[$__interval]))",
+                  "expr": "sum by (status, method_name) (increase(instabase_grpc_server_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$grpc_service\", method_name=~\"$grpc_method\", status!~\"OK\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "{{status}} - {{method_name}}",
                   "refId": "A"
@@ -3106,7 +3106,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(increase(instabase_file_tservice_storage_requests_total{pod=~\"$pod\", operation_name=~\"$storage_operation\", client_type=~\"$client\"}[$__interval]))",
+                  "expr": "sum(increase(instabase_file_tservice_storage_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", operation_name=~\"$storage_operation\", client_type=~\"$client\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -3157,7 +3157,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(increase(instabase_file_tservice_storage_requests_total{pod=~\"$pod\", operation_name=~\"$storage_operation\", client_type=~\"$client\", status_code=~\"FAILURE|failure\"}[$__interval]))",
+                  "expr": "sum(increase(instabase_file_tservice_storage_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", operation_name=~\"$storage_operation\", client_type=~\"$client\", status_code=~\"FAILURE|failure\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -3212,7 +3212,7 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "sum(increase(instabase_file_tservice_requests_total{pod=~\"$pod\", operation_name=~\"$storage_operation\", client_type=~\"$client\", status_code!~\"OK|FAILURE|success|failure\"}[$__interval]))",
+                  "expr": "sum(increase(instabase_file_tservice_requests_total{$label_name=\"$label_value\", pod=~\"$pod\", operation_name=~\"$storage_operation\", client_type=~\"$client\", status_code!~\"OK|FAILURE|success|failure\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "",
                   "refId": "A"
@@ -3269,7 +3269,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(increase(instabase_file_tservice_storage_requests_total{operation_name=~\"$storage_operation\", pod=~\"$pod\"}[$__interval])) by (client_type)",
+                  "expr": "sum(increase(instabase_file_tservice_storage_requests_total{$label_name=\"$label_value\", operation_name=~\"$storage_operation\", pod=~\"$pod\"}[$__interval])) by (client_type)",
                   "instant": false,
                   "interval": "",
                   "legendFormat": " {{client_type}}",
@@ -3366,7 +3366,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "sum(rate(instabase_file_tservice_storage_requests_total{operation_name=~\"$storage_operation\", pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (operation_name)",
+                  "expr": "sum(rate(instabase_file_tservice_storage_requests_total{$label_name=\"$label_value\", operation_name=~\"$storage_operation\", pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (operation_name)",
                   "instant": false,
                   "interval": "",
                   "legendFormat": " {{operation_name}}",
@@ -3463,7 +3463,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_storage_requests_duration_milliseconds_bucket{operation_name=~\"$storage_operation\", pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (le, operation_name))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_storage_requests_duration_milliseconds_bucket{$label_name=\"$label_value\", operation_name=~\"$storage_operation\", pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (le, operation_name))",
                   "interval": "",
                   "legendFormat": "{{operation_name}}",
                   "refId": "A"
@@ -3559,7 +3559,7 @@ data:
               "steppedLine": false,
               "targets": [
                 {
-                  "expr": "sum(rate(instabase_file_tservice_storage_requests_duration_milliseconds_sum{operation_name=~\"$storage_operation\",pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (operation_name) / sum(rate(instabase_file_tservice_storage_requests_duration_milliseconds_count{operation_name=~\"$storage_operation\",pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (operation_name)",
+                  "expr": "sum(rate(instabase_file_tservice_storage_requests_duration_milliseconds_sum{$label_name=\"$label_value\", operation_name=~\"$storage_operation\",pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (operation_name) / sum(rate(instabase_file_tservice_storage_requests_duration_milliseconds_count{$label_name=\"$label_value\", operation_name=~\"$storage_operation\",pod=~\"$pod\", client_type=~\"$client\"}[$__interval])) by (operation_name)",
                   "interval": "",
                   "legendFormat": "{{operation_name}}",
                   "refId": "A"
@@ -3663,14 +3663,14 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_file_tservice_storage_processed_data_bytes_sum{pod=~\"$pod\", client_type=~\"$client\",operation_name=~\"$storage_operation\"}[$__interval])) by (operation_name)",
+                  "expr": "sum(rate(instabase_file_tservice_storage_processed_data_bytes_sum{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\",operation_name=~\"$storage_operation\"}[$__interval])) by (operation_name)",
                   "interval": "",
                   "legendFormat": "{{operation_name}}",
                   "refId": "B"
                 },
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_storage_processed_data_bytes_bucket{pod=~\"$pod\", client_type=~\"$client\", operation_name=~\"$storage_operation\"}[$__interval])) by (le, operation_name))",
+                  "expr": "histogram_quantile(0.99, sum(rate(instabase_file_tservice_storage_processed_data_bytes_bucket{$label_name=\"$label_value\", pod=~\"$pod\", client_type=~\"$client\", operation_name=~\"$storage_operation\"}[$__interval])) by (le, operation_name))",
                   "interval": "",
                   "legendFormat": "Object Chunk Size (99th Percentile) {{operation_name}} ",
                   "refId": "A"
@@ -3731,6 +3731,61 @@ data:
       "templating": {
         "list": [
           {
+            "current": {
+              "selected": true,
+              "text": "tenant_id",
+              "value": "tenant_id"
+            },
+            "hide": 0,
+            "includeAll": false,
+            "multi": false,
+            "name": "label_name",
+            "options": [
+              {
+                "selected": false,
+                "text": "telescope_label",
+                "value": "telescope_label"
+              },
+              {
+                "selected": false,
+                "text": "tenant_id",
+                "value": "tenant_id"
+              },
+              {
+                "selected": false,
+                "text": "loadtest_run_id",
+                "value": "loadtest_run_id"
+              }
+            ],
+            "query": "telescope_label, tenant_id, loadtest_run_id",
+            "queryValue": "",
+            "skipUrlSync": false,
+            "type": "custom"
+          },
+          {
+            "current": {
+              "isNone": true,
+              "selected": false,
+              "text": "None",
+              "value": ""
+            },
+            "definition": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+            "hide": 0,
+            "includeAll": false,
+            "multi": true,
+            "name": "label_value",
+            "options": [],
+            "query": {
+              "query": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 2,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
             "allValue": null,
             "current": {
               "selected": true,
@@ -3742,7 +3797,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(instabase_file_tservice_requests_total, pod)",
+            "definition": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, pod)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -3752,7 +3807,7 @@ data:
             "name": "pod",
             "options": [],
             "query": {
-              "query": "label_values(instabase_file_tservice_requests_total, pod)",
+              "query": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, pod)",
               "refId": "1. Victoriametrics-pod-Variable-Query"
             },
             "refresh": 2,
@@ -3776,7 +3831,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(container_cpu_usage_seconds_total{pod=~\"$pod\", container!=\"POD\"}, container)",
+            "definition": "label_values(container_cpu_usage_seconds_total{$label_name=\"$label_value\", pod=~\"$pod\", container!=\"POD\"}, container)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -3786,7 +3841,7 @@ data:
             "name": "container",
             "options": [],
             "query": {
-              "query": "label_values(container_cpu_usage_seconds_total{pod=~\"$pod\", container!=\"POD\"}, container)",
+              "query": "label_values(container_cpu_usage_seconds_total{$label_name=\"$label_value\", pod=~\"$pod\", container!=\"POD\"}, container)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 1,
@@ -3810,7 +3865,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(instabase_file_tservice_requests_total, operation_name)",
+            "definition": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, operation_name)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -3820,7 +3875,7 @@ data:
             "name": "operation",
             "options": [],
             "query": {
-              "query": "label_values(instabase_file_tservice_requests_total, operation_name)",
+              "query": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, operation_name)",
               "refId": "1. Victoriametrics-operation-Variable-Query"
             },
             "refresh": 2,
@@ -3844,7 +3899,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(instabase_file_tservice_storage_requests_total, operation_name)",
+            "definition": "label_values(instabase_file_tservice_storage_requests_total{$label_name=\"$label_value\"}, operation_name)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -3854,7 +3909,7 @@ data:
             "name": "storage_operation",
             "options": [],
             "query": {
-              "query": "label_values(instabase_file_tservice_storage_requests_total, operation_name)",
+              "query": "label_values(instabase_file_tservice_storage_requests_total{$label_name=\"$label_value\"}, operation_name)",
               "refId": "1. Victoriametrics-operation-Variable-Query"
             },
             "refresh": 2,
@@ -3878,7 +3933,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(instabase_file_tservice_requests_total, client_type)",
+            "definition": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, client_type)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -3888,7 +3943,7 @@ data:
             "name": "client",
             "options": [],
             "query": {
-              "query": "label_values(instabase_file_tservice_requests_total, client_type)",
+              "query": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, client_type)",
               "refId": "1. Victoriametrics-client-Variable-Query"
             },
             "refresh": 2,
@@ -3912,7 +3967,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(instabase_file_tservice_requests_total, status_code)",
+            "definition": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, status_code)",
             "description": null,
             "error": null,
             "hide": 0,
@@ -3922,7 +3977,7 @@ data:
             "name": "status",
             "options": [],
             "query": {
-              "query": "label_values(instabase_file_tservice_requests_total, status_code)",
+              "query": "label_values(instabase_file_tservice_requests_total{$label_name=\"$label_value\"}, status_code)",
               "refId": "1. Victoriametrics-status-Variable-Query"
             },
             "refresh": 1,
@@ -3942,7 +3997,7 @@ data:
               "value": "file_service.FileService"
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values(instabase_grpc_server_started_rpcs_total{pod=~\"$pod\"}, service_name) ",
+            "definition": "label_values(instabase_grpc_server_started_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\"}, service_name) ",
             "description": null,
             "error": null,
             "hide": 2,
@@ -3952,7 +4007,7 @@ data:
             "name": "grpc_service",
             "options": [],
             "query": {
-              "query": "label_values(instabase_grpc_server_started_rpcs_total{pod=~\"$pod\"}, service_name) ",
+              "query": "label_values(instabase_grpc_server_started_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\"}, service_name) ",
               "refId": "1. Victoriametrics-grpc_service-Variable-Query"
             },
             "refresh": 2,
@@ -3976,7 +4031,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values({service_name=~\"$grpc_service\", __name__=~\"instabase_grpc_client_started_rpcs_total|instabase_grpc_server_started_rpcs_total\"}, method_name) ",
+            "definition": "label_values({$label_name=\"$label_value\", service_name=~\"$grpc_service\", __name__=~\"instabase_grpc_client_started_rpcs_total|instabase_grpc_server_started_rpcs_total\"}, method_name) ",
             "description": null,
             "error": null,
             "hide": 0,
@@ -3986,7 +4041,7 @@ data:
             "name": "grpc_method",
             "options": [],
             "query": {
-              "query": "label_values({service_name=~\"$grpc_service\", __name__=~\"instabase_grpc_client_started_rpcs_total|instabase_grpc_server_started_rpcs_total\"}, method_name) ",
+              "query": "label_values({$label_name=\"$label_value\", service_name=~\"$grpc_service\", __name__=~\"instabase_grpc_client_started_rpcs_total|instabase_grpc_server_started_rpcs_total\"}, method_name) ",
               "refId": "1. Victoriametrics-grpc_method-Variable-Query"
             },
             "refresh": 2,

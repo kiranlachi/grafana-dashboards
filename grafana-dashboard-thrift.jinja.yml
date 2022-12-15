@@ -88,7 +88,7 @@ data:
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum(rate(instabase_thrift_client_started_rpcs_total{service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__rate_interval]))",
+              "expr": "sum(rate(instabase_thrift_client_started_rpcs_total{$label_name=\"$label_value\", service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__rate_interval]))",
               "interval": "",
               "legendFormat": "Today",
               "refId": "A"
@@ -148,7 +148,7 @@ data:
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum(rate(instabase_thrift_client_completed_rpcs_total{service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\", status!~\"OK\"}[$__interval])) / sum(rate(instabase_thrift_client_completed_rpcs_total{service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) * 100",
+              "expr": "sum(rate(instabase_thrift_client_completed_rpcs_total{$label_name=\"$label_value\", service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\", status!~\"OK\"}[$__interval])) / sum(rate(instabase_thrift_client_completed_rpcs_total{$label_name=\"$label_value\", service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) * 100",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -208,7 +208,7 @@ data:
           "targets": [
             {
               "exemplar": true,
-              "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
+              "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", service=~\"$service\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -266,7 +266,7 @@ data:
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum(instabase_thrift_client_pool_open_total{pod=~\"$pod\", service_name=~\"$service_name\"}) - sum(instabase_thrift_client_pool_close_total{pod=~\"$pod\", service_name=~\"$service_name\"}) - sum(instabase_thrift_client_pool_idle_total{pod=~\"$pod\", service_name=~\"$service_name\"})",
+              "expr": "sum(instabase_thrift_client_pool_open_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}) - sum(instabase_thrift_client_pool_close_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}) - sum(instabase_thrift_client_pool_idle_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"})",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -322,7 +322,7 @@ data:
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum(instabase_thrift_client_pool_invalid_total{pod=~\"$pod\", service_name=~\"$service_name\"})",
+              "expr": "sum(instabase_thrift_client_pool_invalid_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"})",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -378,7 +378,7 @@ data:
           "targets": [
             {
               "exemplar": true,
-              "expr": "sum(instabase_thrift_client_pool_idle_total{pod=~\"$pod\", service_name=~\"$service_name\"})",
+              "expr": "sum(instabase_thrift_client_pool_idle_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"})",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -469,19 +469,19 @@ data:
               "pluginVersion": "8.0.4",
               "targets": [
                 {
-                  "expr": "histogram_quantile(0.50, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.50, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "50 Percentile",
                   "refId": "A"
                 },
                 {
-                  "expr": "histogram_quantile(0.95, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.95, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "95 Percentile",
                   "refId": "B"
                 },
                 {
-                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "98 Percentile",
                   "refId": "C"
@@ -568,7 +568,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le, service_name))",
+                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le, service_name))",
                   "interval": "",
                   "legendFormat": "{{service_name}}",
                   "refId": "A"
@@ -654,7 +654,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_thrift_client_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (service_name)",
+                  "expr": "sum(rate(instabase_thrift_client_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (service_name)",
                   "interval": "",
                   "legendFormat": "{{service_name}}",
                   "refId": "A"
@@ -740,7 +740,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (service_name) (rate(instabase_thrift_client_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\", status!~\"OK\"}[$__interval]))",
+                  "expr": "sum by (service_name) (rate(instabase_thrift_client_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\", status!~\"OK\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "{{service_name}}",
                   "refId": "A"
@@ -838,21 +838,21 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.50, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.50, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "50 Percentile",
                   "refId": "A"
                 },
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.95, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.95, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "95 Percentile",
                   "refId": "B"
                 },
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
+                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le))",
                   "interval": "",
                   "legendFormat": "98 Percentile",
                   "refId": "C"
@@ -939,7 +939,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le, method_name))",
+                  "expr": "histogram_quantile(0.98, sum(rate(instabase_thrift_client_roundtrip_request_duration_milliseconds_bucket{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (le, method_name))",
                   "interval": "",
                   "legendFormat": "{{method_name}}",
                   "refId": "A"
@@ -1025,7 +1025,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum(rate(instabase_thrift_client_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (method_name)",
+                  "expr": "sum(rate(instabase_thrift_client_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\"}[$__interval])) by (method_name)",
                   "interval": "",
                   "legendFormat": "{{method_name}}",
                   "refId": "A"
@@ -1111,7 +1111,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (method_name) (rate(instabase_thrift_client_completed_rpcs_total{pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\", status!~\"OK\"}[$__interval]))",
+                  "expr": "sum by (method_name) (rate(instabase_thrift_client_completed_rpcs_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\", method_name=~\"$method_name\", status!~\"OK\"}[$__interval]))",
                   "interval": "",
                   "legendFormat": "{{method_name}}",
                   "refId": "A"
@@ -1214,7 +1214,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (service_name) (rate(instabase_thrift_client_pool_open_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__rate_interval]))",
+                  "expr": "sum by (service_name) (rate(instabase_thrift_client_pool_open_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__rate_interval]))",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{service_name}}",
@@ -1300,7 +1300,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (service_name) (rate(instabase_thrift_client_pool_close_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__rate_interval]))",
+                  "expr": "sum by (service_name) (rate(instabase_thrift_client_pool_close_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__rate_interval]))",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{service_name}}",
@@ -1384,7 +1384,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (service_name) (instabase_thrift_client_pool_idle_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
+                  "expr": "sum by (service_name) (instabase_thrift_client_pool_idle_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{service_name}}",
@@ -1468,7 +1468,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (target) (instabase_thrift_client_pool_idle_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
+                  "expr": "sum by (target) (instabase_thrift_client_pool_idle_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{target}}",
@@ -1553,7 +1553,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (service_name) (instabase_thrift_client_pool_open_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (service_name) (instabase_thrift_client_pool_close_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (service_name) (instabase_thrift_client_pool_idle_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
+                  "expr": "sum by (service_name) (instabase_thrift_client_pool_open_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (service_name) (instabase_thrift_client_pool_close_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (service_name) (instabase_thrift_client_pool_idle_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{service_name}}",
@@ -1638,7 +1638,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (target) (instabase_thrift_client_pool_open_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (target) (instabase_thrift_client_pool_close_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (target) (instabase_thrift_client_pool_idle_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
+                  "expr": "sum by (target) (instabase_thrift_client_pool_open_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (target) (instabase_thrift_client_pool_close_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval]) - sum by (target) (instabase_thrift_client_pool_idle_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{target}}",
@@ -1719,7 +1719,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (service_name) (instabase_thrift_client_pool_invalid_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
+                  "expr": "sum by (service_name) (instabase_thrift_client_pool_invalid_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{service_name}}",
@@ -1803,7 +1803,7 @@ data:
               "targets": [
                 {
                   "exemplar": true,
-                  "expr": "sum by (target) (instabase_thrift_client_pool_invalid_total{pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
+                  "expr": "sum by (target) (instabase_thrift_client_pool_invalid_total{$label_name=\"$label_value\", pod=~\"$pod\", service_name=~\"$service_name\"}[$__interval])",
                   "hide": false,
                   "interval": "",
                   "legendFormat": "{{target}}",
@@ -1825,6 +1825,61 @@ data:
       "templating": {
         "list": [
           {
+            "current": {
+              "selected": true,
+              "text": "tenant_id",
+              "value": "tenant_id"
+            },
+            "hide": 0,
+            "includeAll": false,
+            "multi": false,
+            "name": "label_name",
+            "options": [
+              {
+                "selected": false,
+                "text": "telescope_label",
+                "value": "telescope_label"
+              },
+              {
+                "selected": false,
+                "text": "tenant_id",
+                "value": "tenant_id"
+              },
+              {
+                "selected": false,
+                "text": "loadtest_run_id",
+                "value": "loadtest_run_id"
+              }
+            ],
+            "query": "telescope_label, tenant_id, loadtest_run_id",
+            "queryValue": "",
+            "skipUrlSync": false,
+            "type": "custom"
+          },
+          {
+            "current": {
+              "isNone": true,
+              "selected": false,
+              "text": "None",
+              "value": ""
+            },
+            "definition": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+            "hide": 0,
+            "includeAll": false,
+            "multi": true,
+            "name": "label_value",
+            "options": [],
+            "query": {
+              "query": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 2,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
             "allValue": null,
             "current": {
               "selected": true,
@@ -1836,7 +1891,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values({__name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service) ",
+            "definition": "label_values({$label_name=\"$label_value\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service) ",
             "description": null,
             "error": null,
             "hide": 0,
@@ -1846,7 +1901,7 @@ data:
             "name": "service",
             "options": [],
             "query": {
-              "query": "label_values({__name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service) ",
+              "query": "label_values({$label_name=\"$label_value\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service) ",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -1870,7 +1925,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values({service=~\"$service\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service_name) ",
+            "definition": "label_values({$label_name=\"$label_value\", service=~\"$service\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service_name) ",
             "description": null,
             "error": null,
             "hide": 0,
@@ -1880,7 +1935,7 @@ data:
             "name": "service_name",
             "options": [],
             "query": {
-              "query": "label_values({service=~\"$service\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service_name) ",
+              "query": "label_values({$label_name=\"$label_value\", service=~\"$service\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, service_name) ",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -1904,7 +1959,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values({service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, method_name) ",
+            "definition": "label_values({$label_name=\"$label_value\", service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, method_name) ",
             "description": null,
             "error": null,
             "hide": 0,
@@ -1914,7 +1969,7 @@ data:
             "name": "method_name",
             "options": [],
             "query": {
-              "query": "label_values({service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, method_name) ",
+              "query": "label_values({$label_name=\"$label_value\", service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, method_name) ",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -1938,7 +1993,7 @@ data:
               ]
             },
             "datasource": "1. Victoriametrics",
-            "definition": "label_values({service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, pod) ",
+            "definition": "label_values({$label_name=\"$label_value\", service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, pod) ",
             "description": null,
             "error": null,
             "hide": 0,
@@ -1948,7 +2003,7 @@ data:
             "name": "pod",
             "options": [],
             "query": {
-              "query": "label_values({service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, pod) ",
+              "query": "label_values({$label_name=\"$label_value\", service=~\"$service\", service_name=~\"$service_name\", __name__=~\"instabase_thrift_client_started_rpcs_total|instabase_thrift_client_pool_open_total\"}, pod) ",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,

@@ -121,7 +121,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "rate(container_cpu_cfs_throttled_periods_total{pod=~\".*$service.*\", container=~\"$container\"})[1m]/rate(container_cpu_cfs_periods_total{pod=~\".*$service.*\", container=~\"$container\"})[1m]",
+              "expr": "rate(container_cpu_cfs_throttled_periods_total{$label_name=\"$label_value\", pod=~\".*$service.*\", container=~\"$container\"})[1m]/rate(container_cpu_cfs_periods_total{$label_name=\"$label_value\", pod=~\".*$service.*\", container=~\"$container\"})[1m]",
               "interval": "",
               "legendFormat": "pod={{pod}}, container={{container}}",
               "refId": "A"
@@ -211,7 +211,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "1 - (sum by (node, cpu) (increase(node_cpu_seconds_total{mode='idle'}[1m])) and on (node) kube_pod_info{pod=~\".*$service.*\"}) / (sum by (node, cpu) (increase(node_cpu_seconds_total{}[1m])) and on (node) kube_pod_info{pod=~\".*$service.*\"})",
+              "expr": "1 - (sum by (node, cpu) (increase(node_cpu_seconds_total{mode='idle'}[1m])) and on (node) kube_pod_info{$label_name=\"$label_value\", pod=~\".*$service.*\"}) / (sum by (node, cpu) (increase(node_cpu_seconds_total{}[1m])) and on (node) kube_pod_info{$label_name=\"$label_value\", pod=~\".*$service.*\"})",
               "interval": "",
               "legendFormat": "node={{node}}, cpu={{cpu}}",
               "refId": "A"
@@ -329,7 +329,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "histogram_quantile(0.90, sum by (pod, le) (rate(instabase_healthcheck_latency_milliseconds_bucket{pod=~\".*$service.*\"})[$__interval]))",
+              "expr": "histogram_quantile(0.90, sum by (pod, le) (rate(instabase_healthcheck_latency_milliseconds_bucket{$label_name=\"$label_value\", pod=~\".*$service.*\"})[$__interval]))",
               "interval": "",
               "legendFormat": "{{pod}}",
               "refId": "A"
@@ -421,7 +421,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "sum by (exported_service, pod) (rate(instabase_healthcheck_latency_milliseconds_count{pod=~\".*$service.*\"}[1m]))",
+              "expr": "sum by (exported_service, pod) (rate(instabase_healthcheck_latency_milliseconds_count{$label_name=\"$label_value\", pod=~\".*$service.*\"}[1m]))",
               "interval": "",
               "legendFormat": "service={{exported_service}}, pod={{pod}}",
               "refId": "A"
@@ -515,7 +515,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "sum by (pod, container) (increase(kube_pod_container_status_restarts_total{pod=~\".*$service.*\", container=~\"$container\"})[$__interval])",
+              "expr": "sum by (pod, container) (increase(kube_pod_container_status_restarts_total{$label_name=\"$label_value\", pod=~\".*$service.*\", container=~\"$container\"})[$__interval])",
               "hide": false,
               "interval": "",
               "legendFormat": "Container Restarts: pod={{pod}}, container={{container}}",
@@ -527,7 +527,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "sum by (pod) (increase(instabase_gunicorn_worker_process_crashes_total{pod=~\".*$service.*\"})[$__interval])",
+              "expr": "sum by (pod) (increase(instabase_gunicorn_worker_process_crashes_total{$label_name=\"$label_value\", pod=~\".*$service.*\"})[$__interval])",
               "hide": false,
               "interval": "",
               "legendFormat": "Worker Restarts: pod={{pod}}",
@@ -646,7 +646,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "rate(instabase_db_conn_wait_duration_milliseconds{pod=~\".*$service.*\"})[$__interval]/max(1, rate(instabase_db_waiting_conn_total{pod=~\".*$service.*\"})[$__interval])",
+              "expr": "rate(instabase_db_conn_wait_duration_milliseconds{$label_name=\"$label_value\", pod=~\".*$service.*\"})[$__interval]/max(1, rate(instabase_db_waiting_conn_total{$label_name=\"$label_value\", pod=~\".*$service.*\"})[$__interval])",
               "interval": "",
               "legendFormat": "{{pod}}",
               "refId": "A"
@@ -738,7 +738,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "sum by (pod) (instabase_grpc_server_started_rpcs_total{}) - sum by (pod) (instabase_grpc_server_completed_rpcs_total{})",
+              "expr": "sum by (pod) (instabase_grpc_server_started_rpcs_total{$label_name=\"$label_value\"}) - sum by (pod) (instabase_grpc_server_completed_rpcs_total{$label_name=\"$label_value\"})",
               "interval": "",
               "legendFormat": "{{pod}}",
               "refId": "A"
@@ -831,7 +831,7 @@ data:
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum by (queue) (rabbitmq_queue_messages_unacked)",
+              "expr": "sum by (queue) (rabbitmq_queue_messages_unacked{$label_name=\"$label_value\"})",
               "hide": false,
               "interval": "",
               "legendFormat": "Unacked: {{queue}}",
@@ -845,7 +845,7 @@ data:
               },
               "editorMode": "code",
               "exemplar": true,
-              "expr": "sum by (queue) (rabbitmq_queue_messages_ready)",
+              "expr": "sum by (queue) (rabbitmq_queue_messages_ready{$label_name=\"$label_value\"})",
               "hide": false,
               "interval": "",
               "legendFormat": "Ready: {{queue}}",
@@ -965,7 +965,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "sum by (backend) (increase(nginx_vts_upstream_requests_total{code=~\"3xx|4xx|5xx\"})[1m]) / sum by (backend) (increase(nginx_vts_upstream_requests_total{code!=\"total\"})[1m])",
+              "expr": "sum by (backend) (increase(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", code=~\"3xx|4xx|5xx\"})[1m]) / sum by (backend) (increase(nginx_vts_upstream_requests_total{$label_name=\"$label_value\", code!=\"total\"})[1m])",
               "interval": "",
               "legendFormat": "{{backend}}",
               "refId": "A"
@@ -1057,7 +1057,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "sum by (job, target) (rate(instabase_http_requests_duration_milliseconds_count{target!=\"/unknown\", status_code!=\"200\"})[1m])",
+              "expr": "sum by (job, target) (rate(instabase_http_requests_duration_milliseconds_count{$label_name=\"$label_value\", target!=\"/unknown\", status_code!=\"200\"})[1m])",
               "interval": "",
               "legendFormat": "job={{job}}, target={{target}}",
               "refId": "A"
@@ -1149,7 +1149,7 @@ data:
                 "uid": "P6A974F2B90346016"
               },
               "exemplar": true,
-              "expr": "sum by (service_name, method_name) (rate(instabase_grpc_client_completed_rpcs_total{status!=\"OK\"})[1m])",
+              "expr": "sum by (service_name, method_name) (rate(instabase_grpc_client_completed_rpcs_total{$label_name=\"$label_value\", status!=\"OK\"})[1m])",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -1196,6 +1196,61 @@ data:
           {
             "current": {
               "selected": true,
+              "text": "tenant_id",
+              "value": "tenant_id"
+            },
+            "hide": 0,
+            "includeAll": false,
+            "multi": false,
+            "name": "label_name",
+            "options": [
+              {
+                "selected": false,
+                "text": "telescope_label",
+                "value": "telescope_label"
+              },
+              {
+                "selected": false,
+                "text": "tenant_id",
+                "value": "tenant_id"
+              },
+              {
+                "selected": false,
+                "text": "loadtest_run_id",
+                "value": "loadtest_run_id"
+              }
+            ],
+            "query": "telescope_label, tenant_id, loadtest_run_id",
+            "queryValue": "",
+            "skipUrlSync": false,
+            "type": "custom"
+          },
+          {
+            "current": {
+              "isNone": true,
+              "selected": false,
+              "text": "None",
+              "value": ""
+            },
+            "definition": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+            "hide": 0,
+            "includeAll": false,
+            "multi": true,
+            "name": "label_value",
+            "options": [],
+            "query": {
+              "query": "label_values({$label_name=\"$label_value\", __name__=~\"container_memory_working_set_bytes|instabase_grpc_client_completed_rpcs_total\"}, $label_name)",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 2,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
+            "current": {
+              "selected": true,
               "text": [
                 "All"
               ],
@@ -1207,7 +1262,7 @@ data:
               "type": "prometheus",
               "uid": "P6A974F2B90346016"
             },
-            "definition": "label_values(kube_service_info{service!~\".*kube-.*|.*locust.*|.*loki.*\"}, service)",
+            "definition": "label_values(kube_service_info{$label_name=\"$label_value\", service!~\".*kube-.*|.*locust.*|.*loki.*\"}, service)",
             "hide": 0,
             "includeAll": true,
             "label": "Service",
@@ -1215,7 +1270,7 @@ data:
             "name": "service",
             "options": [],
             "query": {
-              "query": "label_values(kube_service_info{service!~\".*kube-.*|.*locust.*|.*loki.*\"}, service)",
+              "query": "label_values(kube_service_info{$label_name=\"$label_value\", service!~\".*kube-.*|.*locust.*|.*loki.*\"}, service)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
@@ -1238,14 +1293,14 @@ data:
               "type": "prometheus",
               "uid": "P6A974F2B90346016"
             },
-            "definition": "label_values(kube_pod_container_info{container!~\"volume-reload.*|jaeger-agent|grafana.*|kube.*|alert.*|elastic.*|es-cluster|locust.*|nb-reaper|redis-stats-exporter\"}, container)",
+            "definition": "label_values(kube_pod_container_info{$label_name=\"$label_value\", container!~\"volume-reload.*|jaeger-agent|grafana.*|kube.*|alert.*|elastic.*|es-cluster|locust.*|nb-reaper|redis-stats-exporter\"}, container)",
             "hide": 0,
             "includeAll": true,
             "multi": true,
             "name": "container",
             "options": [],
             "query": {
-              "query": "label_values(kube_pod_container_info{container!~\"volume-reload.*|jaeger-agent|grafana.*|kube.*|alert.*|elastic.*|es-cluster|locust.*|nb-reaper|redis-stats-exporter\"}, container)",
+              "query": "label_values(kube_pod_container_info{$label_name=\"$label_value\", container!~\"volume-reload.*|jaeger-agent|grafana.*|kube.*|alert.*|elastic.*|es-cluster|locust.*|nb-reaper|redis-stats-exporter\"}, container)",
               "refId": "StandardVariableQuery"
             },
             "refresh": 2,
